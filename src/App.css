@@ -1,11 +1,11 @@
 .app {
-  background-color: #282c34;
+  background-color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: black;
 }
 
 .app-logo {
@@ -16,35 +16,20 @@
 .app-header {
   font-size: 64px;
   text-align: center;
+  margin-top: 50px;
 }
 
 .app-nav {
   margin-top: 48px;
-  font-size: 32px;
   display: flex;
   justify-content: space-between;
 }
 
-.nav-item {
-  margin-right: 36px;
+#difficulty-button {
+  margin: 10px;
 }
 
 .backToHome {
-  font-size: 48px;
+  font-size: 14px;
   margin-top: 16px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .app-logo {
-    animation: app-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes app-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
