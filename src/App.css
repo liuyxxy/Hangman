@@ -1,11 +1,15 @@
 .app {
   background-color: white;
-  min-height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: black;
+  margin: auto;
+  min-width: 300px;
+  width: 90%;
+  max-width: 800px;
 }
 
 .app-logo {
@@ -24,6 +28,20 @@
   display: flex;
   justify-content: space-between;
 }
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.hangman {
+  background-color: lightblue;
+}
+
+#guess {
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
 
 #difficulty-button {
   margin: 10px;
@@ -32,4 +50,17 @@
 .backToHome {
   font-size: 14px;
   margin-top: 16px;
+}
+
+@media (min-width: 600px) {
+  #keyboard {
+    width: 70%;
+  }
+  #alphabet-button {
+    font-size: 50px;
+  }
+  #bird {
+    min-width: 300px;
+    max-width: 700px;
+  }
 }
