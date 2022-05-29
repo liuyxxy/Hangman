@@ -1,21 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { randomWord } from "./random";
-import { AlphabetButton } from "./components/AlphabetButton.js";
-import HangBird from "./components/HangBird.js";
-import "./../styles.css";
+import { AlphabetButton } from "./AlphabetButton.js";
 
-class EasyHangman extends React.Component {
+class Hangman extends React.Component {
   static defaultProps = {
-    maxWrong: 7,
+    maxWrong: 6,
     keyboard: "qwertyuiopasdfghjklzxcvbnm"
   };
   constructor(props) {
     super(props);
-    let { word, hint } = randomWord();
     this.state = {
-      word: word,
-      hint: hint,
-      guessed: new Set([" "]),
+      word: randomWord(),
+      guessed: new Set([]),
       wrong: 0
     };
   }
@@ -23,9 +20,7 @@ class EasyHangman extends React.Component {
   currWord() {
     return this.state.word
       .split("")
-      .map((letter) =>
-        this.state.guessed.has(letter.toLowerCase()) ? letter : "_"
-      );
+      .map((letter) => (this.state.guessed.has(letter) ? letter : " _ "));
   }
 
   handleGuess = (e) => {
@@ -33,59 +28,26 @@ class EasyHangman extends React.Component {
     e.target.disabled = true;
     this.setState((prevState) => ({
       guessed: prevState.guessed.add(letter),
-      wrong:
-        prevState.wrong +
-        (prevState.word.includes(letter) ||
-        prevState.word.includes(letter.toUpperCase())
-          ? 0
-          : 1)
+      wrong: prevState.wrong + (prevState.word.includes(letter) ? 0 : 1)
     }));
   };
 
   keyboard() {
-    const lst = this.props.keyboard.split("");
-    const top = lst.slice(0, 10);
-    const middle = lst.slice(10, 19);
-    const bottom = lst.slice(19, 26);
-    return (
-      <div style={{ textAlign: "center", width: "100%" }}>
-        <div>
-          {top.map((letter) => (
-            <AlphabetButton
-              onClick={this.handleGuess}
-              key={letter}
-              value={letter}
-            />
-          ))}
-        </div>
-        <div>
-          {middle.map((letter) => (
-            <AlphabetButton
-              onClick={this.handleGuess}
-              key={letter}
-              value={letter}
-            />
-          ))}
-        </div>
-        <div>
-          {bottom.map((letter) => (
-            <AlphabetButton
-              onClick={this.handleGuess}
-              key={letter}
-              value={letter}
-            />
-          ))}
-        </div>
-      </div>
-    );
+    return this.props.keyboard
+      .split("")
+      .map((letter) => (
+        <AlphabetButton
+          onClick={this.handleGuess}
+          key={letter}
+          value={letter}
+        />
+      ));
   }
 
   handleReset = () => {
-    let { word, hint } = randomWord();
     this.setState((prevState) => ({
-      word: word,
-      hint: hint,
-      guessed: new Set([" "]),
+      word: randomWord(),
+      guessed: new Set([]),
       wrong: 0
     }));
   };
@@ -94,37 +56,26 @@ class EasyHangman extends React.Component {
     const isWin = this.currWord().join("") === this.state.word;
     const isLose = this.state.wrong >= this.props.maxWrong;
     const gameOver = isWin || isLose;
-
     return (
       <div className="app">
         <div>It is time to play hangman!</div>
-        <p>
-          no of wrong guesses: {this.state.wrong} / {this.props.maxWrong}
-        </p>
-        <HangBird chance={this.props.maxWrong - this.state.wrong} />
+        <p>no of wrong guesses: {this.state.wrong}</p>
         <div>{isWin && "You win! The word was " + this.state.word}</div>
-        <div style={{ margin: "20px" }}>
-          {isLose && "You lose! The word was " + this.state.word}
-        </div>
+        <div>{isLose && "You lose! The word was " + this.state.word}</div>
         <div>
           {gameOver && (
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={this.handleReset}
-            >
-              Reset Game
-            </button>
+            <AlphabetButton value="Reset Game" onClick={this.handleReset} />
           )}
         </div>
-        <div id="keyboard">{!gameOver && this.keyboard()}</div>
-        <div id="guess">{!gameOver && this.currWord()}</div>
-        <div>
-          <i>{!gameOver && "hint: " + this.state.hint}</i>
-        </div>
+        <div>{!gameOver && this.keyboard()}</div>
+        <div>{!gameOver && this.currWord()}</div>
+        <div id="keyboard"></div>
+        <Link className="backToHome" to="/">
+          Back to Home
+        </Link>
       </div>
     );
   }
 }
 
-export default EasyHangman;
+export default Hangman;
