@@ -12,6 +12,6 @@ code {
     monospace;
 }
 
-@-ms-viewport {
-  width: device-width;
+a {
+  color: #61dafb;
 }
